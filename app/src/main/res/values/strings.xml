@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">ProjectCoOp</string>
+    <string name="monthly_sales">ยอดขายรายเดือน</string>
+    <string name="month">month</string>
+    <string name="timestamp">timestamp</string>
+    <string name="date">date</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="product">Product</string>
+    <string name="sales">sales</string>
+    <string name="title_sales">title_sales</string>
+    <string name="total_sales">ยอดขายทั้งหมด</string>
+    <string name="top_sales">ยอดขายสูงสุด อันดับ 1</string>
+    <string name="lottery_sales">ยอดขายลอตเตอรี่งวดที่ (xx)</string>
+    <string name="partner">Partner (x)</string>
+    <string name="profit">profit</string>
+    <string name="garena">garena</string>
+    <string name="setMonth">setMonth</string>
+    <string name="setYear">setYear</string>
+</resources>
