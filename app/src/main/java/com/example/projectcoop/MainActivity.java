@@ -43,6 +43,7 @@ import com.example.projectcoop.models.Datum;
 import com.example.projectcoop.models.Partner;
 import com.example.projectcoop.models.Saleslist;
 import com.example.projectcoop.models.SortMoneyProduct;
+import com.example.projectcoop.models.SortMonth;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -50,6 +51,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.security.Timestamp;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,7 +60,9 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.LongFunction;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         Visibility();
         showDatePickerDialog();
         getListData(setYear,setMonth+1);
-        getAllSales(setYear,setMonth);
+        getAllSales(setYear,setMonth+1);
 
 
 
@@ -135,11 +139,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = getMonth(month) + " " + year;
-        final MainActivityViewModel model = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-        MonthYear monthYear = new MonthYear(year,month+1);
-        MutableLiveData<MonthYear> my =  model.setDate(monthYear);
-        model.setGlobalMonthYear(my);
-        Log.e("MainActivity",String.valueOf(monthYear.getGlobalMonth()));
         getListData(year,month+1);
         Text_date.setText(date);
     }
@@ -407,132 +406,132 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void getAllSales(int year,int month){
+        LineChartView lineChartView;
+        lineChartView = findViewById(R.id.lineChart);
+        List<SortMonth> sortMonthsList = new ArrayList<SortMonth>();
+        LinkedHashMap<String,Float> lh = new LinkedHashMap<>(16, .75f, true);
+        for (int i = 0;i>=-3;i--){
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.YEAR, year);
+            calendar.add(Calendar.MONTH,i);
+            int mo = calendar.get(Calendar.MONTH);
+            int ye = calendar.get(Calendar.YEAR);
+            Log.e("mo",mo+"");
+            Long timestamp = calendar.getTimeInMillis()/1000;
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://35.240.178.202:8080/dashboriboon/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://35.240.178.202:8080/dashboriboon/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        RetrofitInterfaceSalesList service = retrofit.create(RetrofitInterfaceSalesList.class);
-        Map<String, Object> jsonParams = new ArrayMap<>();
+            RetrofitInterfaceSalesList service = retrofit.create(RetrofitInterfaceSalesList.class);
+            Map<String, Object> jsonParams = new ArrayMap<>();
 
-        Partner partner = new Partner("webreport01","ek7cMZK7j9AN7ACCZx5BZ4N8wevUA4u7",month,year);
-        Call<Saleslist> call = service.requestSalesList(partner);
-        call.enqueue(new Callback<Saleslist>() {
-            @Override
-            public void onResponse(Call<Saleslist> call, Response<Saleslist> response) {
-                Saleslist tempList = new Saleslist();
-                tempList = response.body();
-                if (Integer.parseInt(tempList.getStatus()) == 1) {
-                    if (response.code() == 200) {
+            Partner partner = new Partner("webreport01","ek7cMZK7j9AN7ACCZx5BZ4N8wevUA4u7",mo,ye);
+            Call<Saleslist> call = service.requestSalesList(partner);
+            call.enqueue(new Callback<Saleslist>() {
+                @Override
+                public void onResponse(Call<Saleslist> call, Response<Saleslist> response) {
+                    Saleslist tempList = new Saleslist();
+                    tempList = response.body();
+                    if (Integer.parseInt(tempList.getStatus()) == 1) {
+                        if (response.code() == 200) {
 
-                        //////////////////////////////////Total
+                            //////////////////////////////////Total
 
-                        int moneySumGarena = 0;
-                        int moneySumUnitel = 0;
-                        int moneySumEtl = 0;
-                        int moneySumBeeline = 0;
-                        int moneySumLaotelecom = 0;
-                        int moneySumTruemoney = 0;
-                        int moneySumlottory = 0;
+                            int moneySumGarena = 0;
+                            int moneySumUnitel = 0;
+                            int moneySumEtl = 0;
+                            int moneySumBeeline = 0;
+                            int moneySumLaotelecom = 0;
+                            int moneySumTruemoney = 0;
+                            int moneySumlottory = 0;
 
-                        List<SortMoneyProduct> list = new ArrayList<SortMoneyProduct>();
-                        for (int i = 0; i < tempList.getData().size(); i++) {
-                            moneySumGarena += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getGarena().getSaleTotal());
-                            moneySumUnitel += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getUnitel().getSaleTotal());
-                            moneySumEtl += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getEtl().getSaleTotal());
-                            moneySumBeeline += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getBeeline().getSaleTotal());
-                            moneySumLaotelecom += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getLaotelecom().getSaleTotal());
-                            moneySumTruemoney += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getTruemoney().getSaleTotal());
-                            moneySumlottory += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getLottory().getSaleTotal());
-                        }
-                        SortMoneyProduct garena = new SortMoneyProduct("Garena", String.valueOf(moneySumGarena));
-                        SortMoneyProduct unital = new SortMoneyProduct("Unital", String.valueOf(moneySumUnitel));
-                        SortMoneyProduct etl = new SortMoneyProduct("Etl", String.valueOf(moneySumEtl));
-                        SortMoneyProduct beeline = new SortMoneyProduct("Beeline", String.valueOf(moneySumBeeline));
-                        SortMoneyProduct laotelecom = new SortMoneyProduct("Laotelecom", String.valueOf(moneySumLaotelecom));
-                        SortMoneyProduct truemoney = new SortMoneyProduct("Truemoney", String.valueOf(moneySumTruemoney));
-                        SortMoneyProduct lottory = new SortMoneyProduct("Lottory", String.valueOf(moneySumlottory));
-
-                        list.add(garena);
-                        list.add(unital);
-                        list.add(etl);
-                        list.add(beeline);
-                        list.add(laotelecom);
-                        list.add(truemoney);
-                        list.add(lottory);
-
-                        Long total = 0L;
-                        for (int i = 0; i < list.size(); i++) {
-                            total += Integer.parseInt(list.get(i).getMoneyProduct());
-                        }
-
-                        /////////////////////////////////////////////////////////LineChart
-
-                        LineChartView lineChartView;
-                        lineChartView = findViewById(R.id.lineChart);
-
-                        LinkedHashMap<String,Float> lc = new LinkedHashMap<>();
-
-                        for (int i = 0;tempList.getStatus().equals(1); i++){
-                            lc.put(getMonth(month), Float.valueOf(total));
-                        }
-
-
-                        lineChartView.show(lc);
-
-
-
-                    /*listData.clear();
-                    for (int i = 0; i<tempList.getData().size() ; i++){
-                        listData.add(tempList.getData().get(i));
-                    }*/
-
-                    /*String descrinption = response.body().getDescription();
-                    listData = response.body().getData();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("สำเร็จ");
-                    builder.setMessage(descrinption);
-                    builder.setNegativeButton("ปิด", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.show();*/
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                        builder.setTitle("ไม่สำเร็จ.......");
-                        builder.setMessage("code :" + response.code() + " \n" + response.message());
-                        builder.setNegativeButton("ปิด", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                            List<SortMoneyProduct> list = new ArrayList<SortMoneyProduct>();
+                            for (int i = 0; i < tempList.getData().size(); i++) {
+                                moneySumGarena += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getGarena().getSaleTotal());
+                                moneySumUnitel += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getUnitel().getSaleTotal());
+                                moneySumEtl += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getEtl().getSaleTotal());
+                                moneySumBeeline += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getBeeline().getSaleTotal());
+                                moneySumLaotelecom += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getLaotelecom().getSaleTotal());
+                                moneySumTruemoney += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getTruemoney().getSaleTotal());
+                                moneySumlottory += Integer.parseInt(tempList.getData().get(i).getDataGetDraw().getLottory().getSaleTotal());
                             }
-                        });
-                        builder.show();
-                    }
+                            SortMoneyProduct garena = new SortMoneyProduct("Garena", String.valueOf(moneySumGarena));
+                            SortMoneyProduct unital = new SortMoneyProduct("Unital", String.valueOf(moneySumUnitel));
+                            SortMoneyProduct etl = new SortMoneyProduct("Etl", String.valueOf(moneySumEtl));
+                            SortMoneyProduct beeline = new SortMoneyProduct("Beeline", String.valueOf(moneySumBeeline));
+                            SortMoneyProduct laotelecom = new SortMoneyProduct("Laotelecom", String.valueOf(moneySumLaotelecom));
+                            SortMoneyProduct truemoney = new SortMoneyProduct("Truemoney", String.valueOf(moneySumTruemoney));
+                            SortMoneyProduct lottory = new SortMoneyProduct("Lottory", String.valueOf(moneySumlottory));
 
-                }else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("ไม่สำเร็จ");
-                    builder.setMessage("ไม่พบรายการในเดือนนี้");
-                    builder.setNegativeButton("ปิด", new DialogInterface.OnClickListener() {
+                            list.add(garena);
+                            list.add(unital);
+                            list.add(etl);
+                            list.add(beeline);
+                            list.add(laotelecom);
+                            list.add(truemoney);
+                            list.add(lottory);
+
+                            Long total = 0L;
+                            for (int i = 0; i < list.size(); i++) {
+                                total += Integer.parseInt(list.get(i).getMoneyProduct());
+                            }
+
+                            total = (total/1000000);
+
+                            SortMonth sortMonth = new SortMonth();
+                            sortMonth.setMon(mo);
+                            sortMonth.setYear(ye);
+                            sortMonth.setMoneyValue(total);
+                            sortMonth.setTimestamp(timestamp);
+                            sortMonthsList.add(sortMonth);
+
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                            builder.setTitle("ไม่สำเร็จ.......");
+                            builder.setMessage("code :" + response.code() + " \n" + response.message());
+                            builder.setNegativeButton("ปิด", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            builder.show();
+                        }
+
+                    }else {
+                        SortMonth sortMonth = new SortMonth();
+                        sortMonth.setMon(mo);
+                        sortMonth.setYear(ye);
+                        sortMonth.setMoneyValue(0L);
+                        sortMonth.setTimestamp(timestamp);
+                        sortMonthsList.add(sortMonth);
+                    }
+                    Collections.sort(sortMonthsList, new Comparator<SortMonth>() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        public int compare(SortMonth o1, SortMonth o2) {
+                            return o1.getTimestamp().compareTo(o2.getTimestamp());
                         }
                     });
-                    builder.show();
+
+                    for (int i=0 ; i< sortMonthsList.size(); i++){
+                        lh.put(getMonth(sortMonthsList.get(i).getMon()-1), Float.parseFloat(String.valueOf(sortMonthsList.get(i).getMoneyValue())));
+
+                    }
+                    lineChartView.show(lh);
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Saleslist> call, Throwable t) {
+                @Override
+                public void onFailure(Call<Saleslist> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
+
+
+
     }
-
 
 }
