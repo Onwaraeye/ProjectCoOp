@@ -1,13 +1,6 @@
 package com.example.projectcoop;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,43 +8,30 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.util.Size;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.db.williamchart.Tooltip;
-import com.db.williamchart.data.AxisType;
-import com.db.williamchart.data.configuration.LineChartConfiguration;
-import com.db.williamchart.pointtooltip.PointTooltip;
-import com.db.williamchart.renderer.LineChartRenderer;
 import com.db.williamchart.view.BarChartView;
 import com.db.williamchart.view.LineChartView;
 import com.example.projectcoop.adapter.AdapterPartnerSales;
 import com.example.projectcoop.adapter.AdapterTotalSales;
-import com.example.projectcoop.fragment.PartnerSalesReportFragment;
-import com.example.projectcoop.fragment.TotalSalesFragment;
 import com.example.projectcoop.models.Datum;
 import com.example.projectcoop.models.Partner;
 import com.example.projectcoop.models.Saleslist;
 import com.example.projectcoop.models.SortMoneyProduct;
 import com.example.projectcoop.models.SortMonth;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.kal.rackmonthpicker.MonthType;
+import com.kal.rackmonthpicker.RackMonthPicker;
+import com.kal.rackmonthpicker.listener.DateMonthDialogListener;
+import com.kal.rackmonthpicker.listener.OnCancelMonthDialogListener;
+import com.whiteelephant.monthpicker.MonthPickerDialog;
 
-import java.security.Timestamp;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,17 +40,12 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.function.LongFunction;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -107,10 +82,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         getListData(setYear,setMonth+1);
         getAllSales(setYear,setMonth+1);
 
+        //MonthYear();
 
 
         Exit();
-
 
     }
 
@@ -123,14 +98,77 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-            calendar.setOnClickListener(new View.OnClickListener() {
+        calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 datePickerDialog.show();
             }
         });
     }
+
+    /*public void showMonthYear(){
+        final RackMonthPicker rackMonthPicker = new RackMonthPicker(this)
+                .setMonthType(MonthType.TEXT)
+                .setPositiveButton(new DateMonthDialogListener() {
+                    @Override
+                    public void onDateMonth(int month, int startDate, int endDate, int year, String monthLabel) {
+
+                    }
+                })
+                .setNegativeButton(new OnCancelMonthDialogListener() {
+                    @Override
+                    public void onCancel(androidx.appcompat.app.AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+//        new RackMonthPicker(this)
+//                .setPositiveButton(new DateMonthDialogListener() {
+//                    @Override
+//                    public void onDateMonth(int month, int startDate, int endDate, int year, String monthLabel) {
+//
+//                    }
+//                })
+//                .setNegativeButton(new OnCancelMonthDialogListener() {
+//                    @Override
+//                    public void onCancel(AlertDialog dialog) {
+//
+//                    }
+//                }).show();
+
+        Button button = (Button) findViewById(R.id.month_picker);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rackMonthPicker.show();
+            }
+        });
+    }*/
+
+    /*public void MonthYear(){
+        final Calendar today = Calendar.getInstance();
+        findViewById(R.id.month_picker).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(MainActivity.this,
+                        new MonthPickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(int month, int year) {
+                                String date = getMonth(month) + " " + year;
+                                getListData(year,month+1);
+                                Text_date.setText(date);
+                            }
+                        },today.get(Calendar.YEAR),today.get(Calendar.MONTH));
+                builder.setActivatedMonth(Calendar.JULY)
+                        .setMinYear(1990)
+                        .setActivatedYear(today.get(Calendar.YEAR))
+                        .setMaxYear(2030)
+                        .setTitle("Select month year")
+                        .build()
+                        .show();
+
+            }
+        });
+    }*/
 
     public String getMonth(int month){
         return new DateFormatSymbols().getMonths()[month];
@@ -294,37 +332,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                         adapterPartnerSales = new AdapterPartnerSales(MainActivity.this, tempList.getData());
                         ListViewItemPartner.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                         ListViewItemPartner.setAdapter(adapterPartnerSales);
-
-                        /////////////////////////////////////////////////////////LineChart
-
-                        /*LineChartView lineChartView;
-                        lineChartView = findViewById(R.id.lineChart);
-
-                        int unt,etL,ltlc,grn,bl,tmn,ltr;
-                        unt = (Integer.parseInt(unital.getMoneyProduct())/1000000);
-                        etL = (Integer.parseInt(etl.getMoneyProduct())/1000000);
-                        ltlc = (Integer.parseInt(laotelecom.getMoneyProduct())/1000000);
-                        grn = (Integer.parseInt(garena.getMoneyProduct())/1000000);
-                        bl = (Integer.parseInt(beeline.getMoneyProduct())/1000000);
-                        tmn = (Integer.parseInt(truemoney.getMoneyProduct())/1000000);
-                        ltr = (Integer.parseInt(lottory.getMoneyProduct())/1000000);
-
-
-                        LinkedHashMap<String,Float> lc = new LinkedHashMap<>();
-
-
-                        lc.put(unital.getProduct(), Float.parseFloat((String.valueOf(unt))));
-                        lc.put(etl.getProduct(), Float.parseFloat(String.valueOf(etL)));
-                        lc.put(laotelecom.getProduct(), Float.parseFloat(String.valueOf(ltlc)));
-                        lc.put(garena.getProduct(), Float.parseFloat(String.valueOf(grn)));
-                        lc.put(beeline.getProduct(), Float.parseFloat(String.valueOf(bl)));
-                        lc.put(truemoney.getProduct(), Float.parseFloat(String.valueOf(tmn)));
-                        lc.put(lottory.getProduct(), Float.parseFloat(String.valueOf(ltr)));
-
-
-                        lineChartView.show(lc);*/
-
-                        ///////////////////////////////////////////////BarChart
 
                         BarChartView barChartView;
                         barChartView = findViewById(R.id.barChart);
@@ -518,7 +525,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                     for (int i=0 ; i< sortMonthsList.size(); i++){
                         lh.put(getMonth(sortMonthsList.get(i).getMon()-1), Float.parseFloat(String.valueOf(sortMonthsList.get(i).getMoneyValue())));
-
+                        Log.e("mo",getMonth(sortMonthsList.get(i).getMon()-1));
                     }
                     lineChartView.show(lh);
                 }

@@ -9,10 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#3D405B</color>
     <color name="beige">#F7EDE2</color>
-    <color name="light_green">#ACFF6C</color>
+    <color name="light_green">#0df6e3</color> <!--ACFF6C-->
     <color name="green">#B5FF18</color>
     <color name="light_blue">#87D4FF</color>
     <color name="red">#E2836A</color>
     <color name="yellow">#F9C74F</color>
     <color name="orange">#E2836A</color>
+    <color name="bg">#1f1a30</color>#303654
 </resources>

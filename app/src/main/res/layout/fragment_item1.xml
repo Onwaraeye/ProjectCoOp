@@ -7,46 +7,46 @@
     android:orientation="vertical"
     tools:context=".fragment.Item1Fragment">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:cardBackgroundColor="@color/blue">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_blue"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/text_title"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="item 1"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/text_total_sales"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="xx,xxx"
-                android:textColor="@color/red"
-                android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/text_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="item 1"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/text_total_sales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="xx,xxx"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/arrow4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
         </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

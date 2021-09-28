@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,14 +6,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/bg"
+        android:background="@color/bg"
         tools:context=".MainActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/toolbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/bg"
+            android:theme="?attr/actionBarTheme" />
+
+        <TextView
+            android:id="@+id/title_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="ยอดขายรายเดือน"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/imageViewLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            app:srcCompat="@drawable/ic_baseline_power_settings_new_24" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,21 +46,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
+
 
                 <TextView
                     android:id="@+id/text_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/date"
+                    android:text="23 September"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -59,73 +83,27 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/timestamp"
+                android:textSize="11sp"
                 android:textColor="@color/white" />
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/blue">
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/total_sales"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/text_total_sales"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/sales"
-                        android:textColor="@color/light_green"
-                        android:textSize="18sp" />
-
-                    <ImageView
-                        android:id="@+id/arrow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/blue">
-
-                <LinearLayout
+                    android:id="@+id/titleBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_blue"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -133,29 +111,82 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/top_sales"
+                            android:gravity="center"
+                            android:text="@string/total_sales"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/text_total_sales"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/sales"
+                            android:textColor="@color/light_green"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/detail11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_detail">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/titleBar2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_blue"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/text_title_partner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="@string/partner"
                             android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/text_partner_sales"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/sales"
-                        android:textColor="@color/light_blue"
-                        android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/text_partner_sales"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/sales"
+                            android:textColor="@color/light_green"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/arrow2"
@@ -164,79 +195,96 @@
                         app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:id="@+id/detail22"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:background="@drawable/bg_detail"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/detail2"
-                android:layout_width="match_parent"
-                android:layout_height="225dp"
-                android:visibility="gone" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/detail2"
+                        android:layout_width="match_parent"
+                        android:layout_height="225dp"
+                        android:visibility="gone" />
+                </LinearLayout>
 
-            <include
-                layout="@layout/fragment_lottery_sales"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
+                <include
+                    layout="@layout/fragment_lottery_sales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
 
-            <include
-                layout="@layout/fragment_item1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
+                <include
+                    layout="@layout/fragment_item1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:background="@color/blue"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="กราฟยอดขายพาร์ทเนอร์"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <com.db.williamchart.view.LineChartView
-                android:id="@+id/lineChart"
-                android:layout_width="match_parent"
-                android:layout_height="270dp"
-                android:padding="10dp"
-                android:background="@color/white"
-                app:chart_labelsColor="@color/black"
-                app:chart_labelsSize="9dp"
-                app:chart_lineColor="@color/orange"
-                app:chart_lineThickness="1dp"
-                app:chart_smoothLine="false"
-                app:chart_pointsDrawable="@drawable/ic_baseline_remove_circle_24"/>
-
-
-            <TextView
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:background="@color/blue"
+                    android:background="@drawable/head_title"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="กราฟยอดขายพาร์ทเนอร์"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <com.db.williamchart.view.LineChartView
+                    android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="270dp"
+                    android:background="@drawable/bg_detail_chart"
+                    android:padding="10dp"
+                    app:chart_axis="xy"
+                    app:chart_labelsColor="@color/white"
+                    app:chart_labelsSize="9dp"
+                    app:chart_lineColor="@color/white"
+                    app:chart_lineThickness="1dp"
+                    app:chart_pointsDrawable="@drawable/ic_baseline_remove_circle_24"
+                    app:chart_smoothLine="false" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/head_title"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="ยอดขายทั้งหมด"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
-            <com.db.williamchart.view.BarChartView
-                android:id="@+id/barChart"
-                android:layout_width="match_parent"
-                android:layout_height="270dp"
-                android:padding="10dp"
-                android:background="@color/orange"
-                app:chart_labelsColor="@color/white"
-                app:chart_labelsSize="9dp"
-                app:chart_spacing="20dp"
-                app:chart_barsColor="@color/yellow"
-                app:chart_barsBackgroundColor="@color/beige"
-                app:chart_barsRadius="10dp" />
+                <com.db.williamchart.view.BarChartView
+                    android:id="@+id/barChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="270dp"
+                    android:background="@drawable/bg_detail_chart"
+                    android:padding="10dp"
+                    app:chart_barsBackgroundColor="@color/beige"
+                    app:chart_barsColor="@color/yellow"
+                    app:chart_barsRadius="10dp"
+                    app:chart_labelsColor="@color/white"
+                    app:chart_labelsSize="9dp"
+                    app:chart_spacing="20dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/month_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Month Picker" />
         </LinearLayout>
 
     </ScrollView>
-
 
 </LinearLayout>
