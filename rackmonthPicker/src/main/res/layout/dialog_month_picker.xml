@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:background="@color/lite_blue"
+                android:background="@color/color_primary"
                 android:padding="16dp">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -131,7 +131,6 @@
                 android:padding="10dp"
                 android:background="@color/white"
                 android:stateListAnimator="@null"
-                android:textColor="@color/lite_blue"
                 android:text="@string/ok"/>
         </LinearLayout>
     </LinearLayout>

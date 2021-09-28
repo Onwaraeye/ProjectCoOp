@@ -201,7 +201,7 @@ public class RackMonthPicker {
             year = cal.get(Calendar.YEAR);
             month = cal.get(Calendar.MONTH);
 
-            setColorTheme(getColorByThemeAttr(context, android.R.attr.colorPrimary, R.color.color_primary));
+            //setColorTheme(getColorByThemeAttr(context, android.R.attr.colorPrimary, R.color.color_primary));
         }
 
         private int getColorByThemeAttr(Context context, int attr, int defaultColor) {
