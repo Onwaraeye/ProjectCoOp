@@ -43,6 +43,15 @@
         android:inputType="textPassword"
         android:hint="Password" />
 
+    <CheckBox
+        android:id="@+id/remember"
+        android:text="Keep"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:buttonTint="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/btLogin"
         android:layout_marginTop="40dp"

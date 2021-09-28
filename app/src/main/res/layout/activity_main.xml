@@ -200,7 +200,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     android:background="@drawable/bg_detail"
-                    android:orientation="vertical"
                     android:visibility="gone">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -275,14 +274,6 @@
                     app:chart_spacing="20dp" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/month_picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Month Picker" />
         </LinearLayout>
 
     </ScrollView>

@@ -5,16 +5,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.db.williamchart.view.BarChartView;
@@ -30,7 +30,6 @@ import com.kal.rackmonthpicker.MonthType;
 import com.kal.rackmonthpicker.RackMonthPicker;
 import com.kal.rackmonthpicker.listener.DateMonthDialogListener;
 import com.kal.rackmonthpicker.listener.OnCancelMonthDialogListener;
-import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class MainActivity extends AppCompatActivity {
 
     private TextView Text_date;
 
@@ -78,10 +77,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         Text_date.setText(date);
 
         Visibility();
-        showDatePickerDialog();
+        //showDatePickerDialog();
         getListData(setYear,setMonth+1);
         getAllSales(setYear,setMonth+1);
 
+        showMonthYear();
         //MonthYear();
 
 
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
 
-    public void showDatePickerDialog(){
+    /*public void showDatePickerDialog(){
         View calendar = findViewById(R.id.image_ic_calender);
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
@@ -104,15 +104,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 datePickerDialog.show();
             }
         });
-    }
+    }*/
 
-    /*public void showMonthYear(){
+    public void showMonthYear(){
         final RackMonthPicker rackMonthPicker = new RackMonthPicker(this)
                 .setMonthType(MonthType.TEXT)
                 .setPositiveButton(new DateMonthDialogListener() {
                     @Override
                     public void onDateMonth(int month, int startDate, int endDate, int year, String monthLabel) {
-
+                        String date = getMonth(month-1) + " " + year;
+                        getListData(year,month);
+                        Text_date.setText(date);
                     }
                 })
                 .setNegativeButton(new OnCancelMonthDialogListener() {
@@ -121,28 +123,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                         dialog.dismiss();
                     }
                 });
-//        new RackMonthPicker(this)
-//                .setPositiveButton(new DateMonthDialogListener() {
-//                    @Override
-//                    public void onDateMonth(int month, int startDate, int endDate, int year, String monthLabel) {
-//
-//                    }
-//                })
-//                .setNegativeButton(new OnCancelMonthDialogListener() {
-//                    @Override
-//                    public void onCancel(AlertDialog dialog) {
-//
-//                    }
-//                }).show();
 
-        Button button = (Button) findViewById(R.id.month_picker);
-        button.setOnClickListener(new View.OnClickListener() {
+        View calendar = findViewById(R.id.image_ic_calender);
+        calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rackMonthPicker.show();
             }
         });
-    }*/
+    }
 
     /*public void MonthYear(){
         final Calendar today = Calendar.getInstance();
@@ -174,12 +163,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return new DateFormatSymbols().getMonths()[month];
     }
 
-    @Override
+    /*@Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = getMonth(month) + " " + year;
         getListData(year,month+1);
         Text_date.setText(date);
-    }
+    }*/
 
     public void Visibility() {
         ImageView arrow = findViewById(R.id.arrow);
@@ -198,14 +187,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
         ImageView arrow2 = findViewById(R.id.arrow2);
         RecyclerView detail2 = findViewById(R.id.detail2);
+        LinearLayout detail22 = findViewById(R.id.detail22);
         arrow2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (detail2.getVisibility() == View.VISIBLE ){
                     detail2.setVisibility(View.GONE);
+                    detail22.setVisibility(View.GONE);
                     arrow2.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else {
                     detail2.setVisibility(View.VISIBLE);
+                    detail22.setVisibility(View.VISIBLE);
                     arrow2.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
             }
@@ -214,9 +206,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     public void Exit(){
         View exit = findViewById(R.id.imageViewLogout);
-        exit.setOnClickListener((v) -> {
-            finish();
-            System.exit(0);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences preferences = getSharedPreferences("checkbox",MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("remember","false");
+                editor.apply();
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
     }
 

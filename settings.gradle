@@ -1,2 +1,2 @@
 rootProject.name = "ProjectCoOp"
-include ':app'
+include ':app',':rackmonthPicker'

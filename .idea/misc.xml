@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Tong/Documents/GitHub/ProjectCoOp/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/Users/Tong/Documents/GitHub/ProjectCoOp/app/src/main/res/layout/activity_main.xml" value="0.2421875" />
+        <entry key="..\:/Users/Tong/Documents/GitHub/ProjectCoOp/rackmonthPicker/src/main/res/drawable/window_back.xml" value="0.25833333333333336" />
+        <entry key="..\:/Users/Tong/Documents/GitHub/ProjectCoOp/rackmonthPicker/src/main/res/layout/dialog_month_picker.xml" value="0.264" />
+        <entry key="..\:/Users/Tong/Documents/GitHub/ProjectCoOp/rackmonthPicker/src/main/res/layout/item_view_month.xml" value="0.2421875" />
         <entry key="..\:/Users/Tong/Downloads/ProjectCoOp/app/src/main/res/layout/activity_main.xml" value="0.2421875" />
       </map>
     </option>
