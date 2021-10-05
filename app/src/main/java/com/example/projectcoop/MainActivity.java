@@ -251,13 +251,13 @@ public class MainActivity extends AppCompatActivity {
 
                         //////////////////////////////////Total
 
-                        int moneySumGarena = 0;
-                        int moneySumUnitel = 0;
-                        int moneySumEtl = 0;
-                        int moneySumBeeline = 0;
-                        int moneySumLaotelecom = 0;
-                        int moneySumTruemoney = 0;
-                        int moneySumlottory = 0;
+                        Long moneySumGarena = 0L;
+                        Long moneySumUnitel = 0L;
+                        Long moneySumEtl = 0L;
+                        Long moneySumBeeline = 0L;
+                        Long moneySumLaotelecom = 0L;
+                        Long moneySumTruemoney = 0L;
+                        Long moneySumlottory = 0L;
 
                         List<SortMoneyProduct> list = new ArrayList<SortMoneyProduct>();
                         for (int i = 0; i < tempList.getData().size(); i++) {
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Long total = 0L;
                         for (int i = 0; i < list.size(); i++) {
-                            total += Integer.parseInt(list.get(i).getMoneyProduct());
+                            total += Long.parseLong(list.get(i).getMoneyProduct());
                         }
 
 
@@ -307,19 +307,23 @@ public class MainActivity extends AppCompatActivity {
 
                         ////////////////////////////////////////////Partner
 
-                        int high = 0;
-                        String id_part = "";
-                        for (int i = 0; i < tempList.getData().size(); i++) {
-                            int testNum = Integer.parseInt(tempList.getData().get(i).getMoneyTotal());
-                            if (high < testNum) {
-                                high = testNum;
-                                id_part = tempList.getData().get(i).getPartnerId();
+                            Long high = 0L;
+                            String id_part = "";
+                            for (int i = 0; i < tempList.getData().size(); i++) {
+                                Long testNum = Long.parseLong(tempList.getData().get(i).getMoneyTotal());
+                                if (high < testNum) {
+                                    high = testNum;
+                                    id_part = tempList.getData().get(i).getPartnerId();
+                                }
                             }
-                        }
-                        TextView text_total_sales = findViewById(R.id.text_partner_sales);
-                        TextView text_partID = findViewById(R.id.text_title_partner);
-                        text_partID.setText("Partner " + id_part);
-                        text_total_sales.setText(String.format("%,d", Long.parseLong(String.valueOf(high))) + " ₭");
+                            Log.e("9",high+"");
+                            TextView text_total_sales = findViewById(R.id.text_partner_sales);
+                            TextView text_partID = findViewById(R.id.text_title_partner);
+                            text_partID.setText("Partner " + id_part);
+                            text_total_sales.setText(String.format("%,d", Long.parseLong(String.valueOf(high))) + " ₭");
+
+
+
 
                         Collections.sort(tempList.getData(), new Comparator<Datum>() {
                             @Override
@@ -336,14 +340,14 @@ public class MainActivity extends AppCompatActivity {
                         BarChartView barChartView;
                         barChartView = findViewById(R.id.barChart);
 
-                        int unt,etL,ltlc,grn,bl,tmn,ltr;
-                        unt = (Integer.parseInt(unital.getMoneyProduct())/1000000);
-                        etL = (Integer.parseInt(etl.getMoneyProduct())/1000000);
-                        ltlc = (Integer.parseInt(laotelecom.getMoneyProduct())/1000000);
-                        grn = (Integer.parseInt(garena.getMoneyProduct())/1000000);
-                        bl = (Integer.parseInt(beeline.getMoneyProduct())/1000000);
-                        tmn = (Integer.parseInt(truemoney.getMoneyProduct())/1000000);
-                        ltr = (Integer.parseInt(lottory.getMoneyProduct())/1000000);
+                        Long unt,etL,ltlc,grn,bl,tmn,ltr;
+                        unt = (Long.parseLong(unital.getMoneyProduct())/1000000);
+                        etL = (Long.parseLong(etl.getMoneyProduct())/1000000);
+                        ltlc = (Long.parseLong(laotelecom.getMoneyProduct())/1000000);
+                        grn = (Long.parseLong(garena.getMoneyProduct())/1000000);
+                        bl = (Long.parseLong(beeline.getMoneyProduct())/1000000);
+                        tmn = (Long.parseLong(truemoney.getMoneyProduct())/1000000);
+                        ltr = (Long.parseLong(lottory.getMoneyProduct())/1000000);
 
 
                         LinkedHashMap<String,Float> lh = new LinkedHashMap<String,Float>();
@@ -525,7 +529,6 @@ public class MainActivity extends AppCompatActivity {
 
                     for (int i=0 ; i< sortMonthsList.size(); i++){
                         lh.put(getMonth(sortMonthsList.get(i).getMon()-1), Float.parseFloat(String.valueOf(sortMonthsList.get(i).getMoneyValue())));
-                        Log.e("mo",getMonth(sortMonthsList.get(i).getMon()-1));
                     }
                     lineChartView.show(lh);
                 }
