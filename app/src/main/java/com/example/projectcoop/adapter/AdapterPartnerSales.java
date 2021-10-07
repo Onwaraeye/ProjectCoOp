@@ -41,7 +41,7 @@ public class AdapterPartnerSales extends RecyclerView.Adapter<AdapterPartnerSale
             String partnerProfit = partnerSales.get(position).getMoneyProfit();
             String partnerTotal = partnerSales.get(position).getMoneyTotal();
 
-            holder.text_Partner.setText("Partner "+partnerID);
+            holder.text_Partner.setText(partnerID);
             holder.text_partner_profit.setText("กำไร "+String.format("%,d",Long.parseLong(partnerProfit))+" ₭");
             holder.text_partner_sales.setText("ยอดขาย "+String.format("%,d",Long.parseLong(partnerTotal))+" ₭");
 

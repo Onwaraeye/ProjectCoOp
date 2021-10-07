@@ -131,6 +131,7 @@
                         android:id="@+id/arrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="10dp"
                         android:layout_gravity="center"
                         app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
                 </LinearLayout>
@@ -190,6 +191,7 @@
 
                     <ImageView
                         android:id="@+id/arrow2"
+                        android:padding="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
